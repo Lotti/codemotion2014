@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Phaser Hello World!</title>
+		<script type="text/javascript" src="lib/phaser.min.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var game = new Phaser.Game(640, 480, Phaser.AUTO, "", null, false, false, null);
+
+			var BootState = {
+				preload: function() {
+					game.load.image('loading', 'sprites/loading.png');
+				},
+				create: function() {
+					 game.state.start('preload');
+				}
+			}
+			
+			var PreloadState = {
+				preload: function() {
+					loadingBar = game.add.sprite(0, 0, 'loading');
+					// Center the preload bar
+					loadingBar.x = game.world.centerX - loadingBar.width / 2;
+					loadingBar.y = game.world.centerY - loadingBar.height / 2;
+					game.load.setPreloadSprite(loadingBar);
+					
+					game.load.image('ball', 'sprites/ball.png');
+				},
+				create: function() {
+					game.state.start('game');		
+				}
+			}			
+
+			var fps;
+			var points;
+			var ball;
+            var oldSignX;
+            var oldSignY;
+			var GameState = {
+				create: function() {
+                    var halfWidth = game.world.width*0.5;
+                    var halfHeight = game.world.height*0.5;
+                    
+					game.time.advancedTiming = true;
+					fps = game.add.text(5, 2.5, '', { font: '20px Verdana', fill: '#FFFFFF', align: 'left' });
+					fps.fixedToCamera = true;
+					fps.update = function() {
+						fps.setText(game.time.fps+' fps');
+					}					
+					
+					points = game.add.text(game.world.width-5, 2.5, '0 points', { font: '20px Verdana', fill: '#FFFFFF', align: 'left' });
+					points.fixedToCamera = true;
+					points.p = 0;
+					points.update = function() {
+						points.setText(points.p+' points');
+						points.pivot.x = points.width;
+						points.pivot.y = 0;                        
+					}					
+					
+					game.physics.startSystem(Phaser.Physics.ARCADE);
+					ball = game.add.sprite(halfWidth, halfHeight, 'ball');
+
+					game.physics.enable(ball, Phaser.Physics.ARCADE);
+                    ball.anchor.setTo(0.5,0.5);
+					ball.body.velocity.setTo(200,200);
+					ball.body.collideWorldBounds = true;
+					ball.body.bounce.set(1);
+				},
+				update: function() {
+                    var signX = (ball.body.velocity.x > 0);
+                    var signY = (ball.body.velocity.y > 0);
+                    if (signX != oldSignX || signY != oldSignY) {
+                        oldSignX = signX;
+                        oldSignY = signY;
+                        points.p++;
+                    }
+				}
+			}
+
+			game.state.add("boot", BootState, true);
+			game.state.add("preload", PreloadState, false);
+			game.state.add("game", GameState, false);
+		</script>
+	</body>
+</html>
