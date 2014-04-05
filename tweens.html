@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Tweens</title>
+		<script type="text/javascript" src="lib/phaser.min.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var game = new Phaser.Game(800, 480, Phaser.AUTO, "", null, false, false, null);
+
+			var BootState = {
+				preload: function() {
+					game.load.image('loading', 'sprites/loading.png');
+				},
+				create: function() {
+					 game.state.start('preload');
+				}
+			}
+			
+			var PreloadState = {
+				preload: function() {
+					loadingBar = game.add.sprite(0, 0, 'loading');
+					// Center the preload bar
+					loadingBar.x = game.world.centerX - loadingBar.width / 2;
+					loadingBar.y = game.world.centerY - loadingBar.height / 2;
+					game.load.setPreloadSprite(loadingBar);
+					
+					game.load.image('ball', 'sprites/ball.png');
+				},
+				create: function() {
+					game.state.start('game');		
+				}
+			}			
+
+			var ball;
+            var click;
+            var pressed;
+			var GameState = {
+				create: function() {
+                    var halfWidth = game.world.width*0.5;
+                    var halfHeight = game.world.height*0.5;
+                    
+                    click = 0;
+                    pressed = false;
+                    
+					a = game.add.sprite(100, halfHeight, 'ball');
+                    b = game.add.sprite(300, halfHeight, 'ball');
+                    c = game.add.sprite(500, halfHeight, 'ball');
+                    d = game.add.sprite(700, halfHeight, 'ball');
+				},
+				update: function() {
+                    if (!pressed && game.input.activePointer.isDown) {
+                        pressed = true;
+                        click++;
+                    }
+                    if (game.input.activePointer.isUp) {
+                        pressed = false;
+                    }
+                
+                    if (click == 1) {
+                        //game.add.tween(d).to(properties, duration, ease, autoStart, delay, repeat, yoyo);
+                        /*game.add.tween(a).to({ y: game.world.height-a.height }, 1000 + Math.random() * 3000, Phaser.Easing.Bounce.In, false, 0, 1, true).loop().start();
+
+                        game.add.tween(b).to({ y: -50 }, Math.random() * 4500, Phaser.Easing.Cubic.Out, true)
+                                            .to({ alpha: 0 }, Math.random() * 4500, Phaser.Easing.Quadratic.InOut, true, Math.random() * 500, Number.MAX_VALUE, true);
+
+                        game.add.tween(c).to({ x: 600 }, 2000, Phaser.Easing.Linear.None)
+                                            .to({ y: 300 }, 1000, Phaser.Easing.Linear.None)
+                                            .to({ x: 100 }, 2000, Phaser.Easing.Linear.None)
+                                            .to({ y: 100 }, 1000, Phaser.Easing.Linear.None)
+                                            .loop().start();
+*/
+                        game.add.tween(d).to({ alpha: 0}, 1000, Phaser.Easing.Linear.None).loop().start();
+                        
+                    }
+                    else if (click == 2) {
+                        game.state.start('game', true, false);
+                    }
+				}
+			}
+
+			game.state.add("boot", BootState, true);
+			game.state.add("preload", PreloadState, false);
+			game.state.add("game", GameState, false);
+		</script>
+	</body>
+</html>

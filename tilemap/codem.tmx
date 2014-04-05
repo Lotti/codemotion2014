@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="47" height="13" tilewidth="32" tileheight="32" backgroundcolor="#000000">
+ <tileset firstgid="1" name="block" tilewidth="32" tileheight="32">
+  <image source="../sprites/block.gif" width="39" height="39"/>
+ </tileset>
+ <layer name="codemotion" width="47" height="13">
+  <data encoding="base64" compression="zlib">
+   eJztktsKACAIQ/X/f7rXGFMzBBEUpJutY0xFRAfnxFj2nrjZ0UPMV9grO0f9SAvvWrWWpvcu1rMRe/G0o/krZwV7tsdfdsZb/e9sXcWOe11+j5gyfp8Wy94T6K1peQA+JADh
+  </data>
+ </layer>
+</map>

@@ -1,24 +1,15 @@
-var game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO,  "", null, false, false, null);
+var game = new Phaser.Game(800, 480, Phaser.AUTO, "");
 
 var MainState = {
     preload: function() {
-    },
-    loadUpdate: function() {
-    },
-    loadRender: function() {
     },
     create: function() {
     },
     update: function() {
     },
     render: function() {
-    },
-    paused: function() {
-    },
-    shutdown: function() {
     }
 }
 
 game.state.add("main", MainState, true);
-//game.state.add("preload", PreloadState, false);
-//game.state.add("game", GameState, false);
+//if true the State will be started immediately after adding it.

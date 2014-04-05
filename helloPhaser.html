@@ -10,16 +10,16 @@
 
 			var BootState = {
 				preload: function() {
-					game.load.image('loading', 'sprites/loading.png');
+					game.load.image('loadingBar', 'sprites/loading.png');
 				},
 				create: function() {
-					 game.state.start('preload');
+					 game.state.start('loading');
 				}
 			}
 			
-			var PreloadState = {
+			var LoadingState = {
 				preload: function() {
-					loadingBar = game.add.sprite(0, 0, 'loading');
+					loadingBar = game.add.sprite(0, 0, 'loadingBar');
 					// Center the preload bar
 					loadingBar.x = game.world.centerX - loadingBar.width / 2;
 					loadingBar.y = game.world.centerY - loadingBar.height / 2;
@@ -37,6 +37,7 @@
 			var ball;
             var oldSignX;
             var oldSignY;
+            
 			var GameState = {
 				create: function() {
                     var halfWidth = game.world.width*0.5;
@@ -79,7 +80,7 @@
 			}
 
 			game.state.add("boot", BootState, true);
-			game.state.add("preload", PreloadState, false);
+			game.state.add("loading", LoadingState, false);
 			game.state.add("game", GameState, false);
 		</script>
 	</body>
